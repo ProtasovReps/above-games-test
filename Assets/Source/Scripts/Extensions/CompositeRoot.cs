@@ -1,40 +1,34 @@
-﻿using Interface;
+﻿using Factory;
+using HTTPRequests;
+using LevelPanel;
 using Loader;
-using Source.Scripts;
 using UnityEngine;
-using UnityEngine.UI;
-using UrlParts;
-using UrlParts.Formats;
-using UrlParts.Urls;
 
 namespace Extensions
 {
     public class CompositeRoot : MonoBehaviour
     {
-        // [SerializeField] private LevelPreviewPanel _levelPreviewPanel;
-        [SerializeField] private Image _image;
+        [SerializeField] private RectTransform _previewBlockPlaceholder;
+        [SerializeField] private LevelPreviewBlock _prefab;
+        [SerializeField] private LevelSelectPanel _levelSelectPanel;
+        [SerializeField] [Min(1)] private int _levelCount;
 
         private void Awake()
         {
-            IHttpLoader<Texture2D> httpLoader = new ImageLoader();
-            UrlBuilder builder = new();
+            PreviewBlockFactory blockFactory = new (_prefab, _previewBlockPlaceholder);
+            SpriteFactory spriteFactory = new ();
+            ImageUrlBuilder urlBuilder = new ();
+            TextureLoader textureLoader = new ();
+            PreviewSetter previewSetter = new (textureLoader, spriteFactory, _levelSelectPanel, urlBuilder);
+            
+            _levelSelectPanel.Initialize(_levelCount);
 
-            File file = new File(2);
-
-            builder
-                .SetUrl(new TextureUrl())
-                .SetFile(ref file)
-                .SetFormat(new Jpg());
-
-            StartCoroutine(httpLoader.Load(builder.Build(), ShowImage));
-        }
-
-        private void ShowImage(Texture2D texture)
-        {
-            Sprite sprite = Sprite.Create(
-                texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-
-            _image.sprite = sprite;
+            for (int i = 0; i < _levelCount; i++)
+            {
+                LevelPreviewBlock newBlock = blockFactory.Produce();
+                
+                _levelSelectPanel.Add(newBlock);
+            }
         }
     }
 }

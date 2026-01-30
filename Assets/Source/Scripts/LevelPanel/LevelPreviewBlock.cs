@@ -1,0 +1,19 @@
+﻿using Interface;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace LevelPanel
+{
+    public class LevelPreviewBlock : MonoBehaviour, ILoadPath<Sprite>
+    {
+        [SerializeField] private RectTransform _rectTransform;
+        [SerializeField] private Image _image;
+        
+        public Vector3 Position => _rectTransform.position;
+        
+        public void Set(Sprite sprite)
+        {
+            _image.sprite = sprite;
+        }
+    }
+}

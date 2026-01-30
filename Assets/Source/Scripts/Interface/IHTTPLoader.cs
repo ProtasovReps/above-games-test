@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections;
+using Cysharp.Threading.Tasks;
 
 namespace Interface
 {
-    public interface IHttpLoader<T>
+    public interface IHttpLoader<T> : IDisposable
     {
-        public IEnumerator Load(string path, Action<T> successCallback);
+        public UniTask<T> Load(string path);
     }
 }
