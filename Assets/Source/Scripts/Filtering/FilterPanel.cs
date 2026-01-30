@@ -4,15 +4,19 @@ using System.Linq;
 using Extensions;
 using LevelPanel;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Filtering
 {
     public class FilterPanel : MonoBehaviour
     {
+        private const int SliderMaxValue = 1;
+        
         private readonly Dictionary<FilterButton, Activatable> _filters = new ();
 
         [SerializeField] private FilterButton[] _filterButtons;
         [SerializeField] private FilterButton _firstFilter;
+        [SerializeField] private Scrollbar _scrollBar;
         
         private LevelBlock[] _blocks;
         private Activatable _lastActiveButton;
@@ -60,6 +64,7 @@ namespace Filtering
             _lastActiveButton = activatable;
             
             _lastActiveButton.SetActive(true);
+            _scrollBar.value = SliderMaxValue;
         }
     }
 }

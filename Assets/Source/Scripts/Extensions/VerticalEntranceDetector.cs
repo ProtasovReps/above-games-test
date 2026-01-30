@@ -7,12 +7,12 @@ namespace Extensions
         private readonly float _minVerticalPosition;
         private readonly RectTransform _transform;
         
-        public VerticalEntranceDetector(RectTransform rectTransform, float downOffsetFactor)
+        public VerticalEntranceDetector(RectTransform rectTransform, float offsetFactor)
         {
             int devider = 2;
             float devidedHeight = rectTransform.rect.height / devider;
 
-            _minVerticalPosition = rectTransform.anchoredPosition.y - devidedHeight * downOffsetFactor;
+            _minVerticalPosition = rectTransform.anchoredPosition.y - devidedHeight * offsetFactor;
             
             _transform = rectTransform;
         }

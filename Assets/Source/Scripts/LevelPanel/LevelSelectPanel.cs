@@ -1,63 +1,69 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Extensions;
 using Interface;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace LevelPanel
 {
     public class LevelSelectPanel : MonoBehaviour, ILoadRequester<Sprite>
     {
-        [SerializeField] [Min(1)] private float _entranceCheckOffsetFactor;
-        [SerializeField] [Min(1)] private int _startCount;
-        [SerializeField] private ScrollRect _scrollRect;
-        
+        private const int OneMinus = 1;
+
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
+
+        [SerializeField] [Min(1)] private float _entranceOffsetFactor;
+        [SerializeField] private float _entranceCheckInterval;
+
         private VerticalEntranceDetector _entranceDetector;
-        private Queue<LevelBlock> _bareBlocks;
+        private List<LevelBlock> _bareBlocks;
 
         public event Action<ILoadPath<Sprite>> Requested;
 
         private void Start()
         {
-            RectTransform rectTransform = _scrollRect.transform as RectTransform;
-            
-            _entranceDetector = new VerticalEntranceDetector(rectTransform, _entranceCheckOffsetFactor);
-            
-            for (int i = 0; i < _startCount; i++)
-            {
-                CheckEntries();
-            }
+            RectTransform rectTransform = GetComponent<RectTransform>();
+
+            _entranceDetector = new VerticalEntranceDetector(rectTransform, _entranceOffsetFactor);
+
+            CheckEntrance(_cancellationTokenSource.Token).Forget();
         }
 
         private void OnDestroy()
         {
-            _scrollRect.onValueChanged.RemoveListener(_ => CheckEntries());
+            _cancellationTokenSource?.Cancel();
         }
 
         public void Initialize(IEnumerable<LevelBlock> levelPreviewBlocks)
         {
-            _bareBlocks = new Queue<LevelBlock>(levelPreviewBlocks);
-            
-            _scrollRect.onValueChanged.AddListener(_ => CheckEntries());
+            _bareBlocks = new List<LevelBlock>(levelPreviewBlocks);
         }
 
-        private void CheckEntries()
+        private async UniTaskVoid CheckEntrance(CancellationToken token)
         {
-            if (_bareBlocks.Count == 0)
+            await UniTask.NextFrame(token, true);
+
+            while (_bareBlocks.Count != 0 && token.IsCancellationRequested == false)
             {
-                return;
+                for (int i = _bareBlocks.Count - OneMinus; i >= 0; i--)
+                {
+                    LevelBlock block = _bareBlocks[i];
+
+                    if (_entranceDetector.IsVerticallyInside(block.Position) == false)
+                    {
+                        continue;
+                    }
+
+                    _bareBlocks.RemoveAt(i);
+                    Requested?.Invoke(block);
+
+                }
+
+                await UniTask.WaitForSeconds(
+                    _entranceCheckInterval, cancellationToken: token, cancelImmediately: true);
             }
-
-            LevelBlock block = _bareBlocks.Peek();
-
-            if (_entranceDetector.IsVerticallyInside(block.Position) == false)
-            {
-                return;
-            }
-
-            _bareBlocks.Dequeue();
-            Requested?.Invoke(block);
         }
     }
 }
