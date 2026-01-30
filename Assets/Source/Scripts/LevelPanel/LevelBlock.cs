@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace LevelPanel
 {
-    public class LevelPreviewBlock : MonoBehaviour, ILoadPath<Sprite>
+    public class LevelBlock : MonoBehaviour, ILoadPath<Sprite>
     {
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Image _image;

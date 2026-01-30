@@ -7,10 +7,10 @@ namespace Factory
 {
     public class PreviewBlockFactory
     {
-        private readonly LevelPreviewBlock _prefab;
+        private readonly LevelBlock _prefab;
         private readonly RectTransform _placeholder;
         
-        public PreviewBlockFactory(LevelPreviewBlock prefab, RectTransform placeholder)
+        public PreviewBlockFactory(LevelBlock prefab, RectTransform placeholder)
         {
             if (prefab == null)
             {
@@ -26,7 +26,7 @@ namespace Factory
             _placeholder = placeholder;
         }
 
-        public LevelPreviewBlock Produce()
+        public LevelBlock Produce()
         {
             return Object.Instantiate(_prefab, _placeholder);
         }

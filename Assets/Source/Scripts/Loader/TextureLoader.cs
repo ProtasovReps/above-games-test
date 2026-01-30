@@ -19,7 +19,6 @@ namespace Loader
 
             await request.SendWebRequest();
             ValidateRequestResult(request);
-
             return GetTexture(request);
         }
 

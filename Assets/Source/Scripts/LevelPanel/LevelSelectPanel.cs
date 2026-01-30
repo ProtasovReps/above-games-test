@@ -14,7 +14,7 @@ namespace LevelPanel
         [SerializeField] private ScrollRect _scrollRect;
         
         private VerticalEntranceDetector _entranceDetector;
-        private Queue<LevelPreviewBlock> _bareBlocks;
+        private Queue<LevelBlock> _bareBlocks;
 
         public event Action<ILoadPath<Sprite>> Requested;
 
@@ -35,9 +35,9 @@ namespace LevelPanel
             _scrollRect.onValueChanged.RemoveListener(_ => CheckEntries());
         }
 
-        public void Initialize(IEnumerable<LevelPreviewBlock> levelPreviewBlocks)
+        public void Initialize(IEnumerable<LevelBlock> levelPreviewBlocks)
         {
-            _bareBlocks = new Queue<LevelPreviewBlock>(levelPreviewBlocks);
+            _bareBlocks = new Queue<LevelBlock>(levelPreviewBlocks);
             
             _scrollRect.onValueChanged.AddListener(_ => CheckEntries());
         }
@@ -49,15 +49,15 @@ namespace LevelPanel
                 return;
             }
 
-            LevelPreviewBlock previewBlock = _bareBlocks.Peek();
+            LevelBlock block = _bareBlocks.Peek();
 
-            if (_entranceDetector.IsVerticallyInside(previewBlock.Position) == false)
+            if (_entranceDetector.IsVerticallyInside(block.Position) == false)
             {
                 return;
             }
 
             _bareBlocks.Dequeue();
-            Requested?.Invoke(previewBlock);
+            Requested?.Invoke(block);
         }
     }
 }
