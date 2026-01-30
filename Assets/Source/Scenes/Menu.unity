@@ -520,6 +520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entranceCheckOffsetFactor: 2
+  _startCount: 10
   _scrollRect: {fileID: 850992490}
 --- !u!1 &906695675
 GameObject:

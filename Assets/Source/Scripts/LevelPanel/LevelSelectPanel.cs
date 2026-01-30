@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 namespace LevelPanel
 {
-    [RequireComponent(typeof(RectTransform))]
     public class LevelSelectPanel : MonoBehaviour, ILoadRequester<Sprite>
     {
         [SerializeField] [Min(1)] private float _entranceCheckOffsetFactor;
+        [SerializeField] [Min(1)] private int _startCount;
         [SerializeField] private ScrollRect _scrollRect;
-
+        
         private VerticalEntranceDetector _entranceDetector;
         private Queue<LevelPreviewBlock> _bareBlocks;
 
@@ -20,8 +20,14 @@ namespace LevelPanel
 
         private void Start()
         {
-            RectTransform rectTransform = GetComponent<RectTransform>();
+            RectTransform rectTransform = _scrollRect.transform as RectTransform;
+            
             _entranceDetector = new VerticalEntranceDetector(rectTransform, _entranceCheckOffsetFactor);
+            
+            for (int i = 0; i < _startCount; i++)
+            {
+                CheckEntries();
+            }
         }
 
         private void OnDestroy()
@@ -29,21 +35,11 @@ namespace LevelPanel
             _scrollRect.onValueChanged.RemoveListener(_ => CheckEntries());
         }
 
-        public void Initialize(int levelCount)
+        public void Initialize(IEnumerable<LevelPreviewBlock> levelPreviewBlocks)
         {
-            _bareBlocks = new Queue<LevelPreviewBlock>(levelCount);
-
+            _bareBlocks = new Queue<LevelPreviewBlock>(levelPreviewBlocks);
+            
             _scrollRect.onValueChanged.AddListener(_ => CheckEntries());
-        }
-
-        public void Add(LevelPreviewBlock previewBlock)
-        {
-            if (previewBlock == null)
-            {
-                throw new ArgumentNullException(nameof(previewBlock));
-            }
-
-            _bareBlocks.Enqueue(previewBlock);
         }
 
         private void CheckEntries()
