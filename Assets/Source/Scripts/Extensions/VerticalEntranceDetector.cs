@@ -13,7 +13,6 @@ namespace Extensions
             float devidedHeight = rectTransform.rect.height / devider;
 
             _minVerticalPosition = rectTransform.anchoredPosition.y - devidedHeight * offsetFactor;
-            
             _transform = rectTransform;
         }
 

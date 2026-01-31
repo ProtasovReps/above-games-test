@@ -1,9 +1,8 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 
 namespace Interface
 {
-    public interface IHttpLoader<T> : IDisposable
+    public interface IHttpLoader<T>
     {
         public UniTask<T> Load(string path);
     }

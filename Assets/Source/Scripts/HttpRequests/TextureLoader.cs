@@ -1,23 +1,40 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Interface;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Loader
+namespace HTTPRequests
 {
     public sealed class TextureLoader : IHttpLoader<Texture2D>, IDisposable
     {
-        public void Dispose() //cancellationtoken
+        private readonly CancellationTokenSource _cancellationTokenSource = new ();
+        
+        public void Dispose()
         {
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
         }
         
         public async UniTask<Texture2D> Load(string path)
         {
             using UnityWebRequest request = UnityWebRequestTexture.GetTexture(path);
 
-            await request.SendWebRequest();
+            UnityWebRequestAsyncOperation operation = request.SendWebRequest();
+            
+            await UniTask.WaitUntil(
+                () => operation.isDone, 
+                cancellationToken: _cancellationTokenSource.Token,
+                cancelImmediately: true);
+
+            if (_cancellationTokenSource.IsCancellationRequested)
+            {
+                request.Abort();
+                _cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            }
+            
             ValidateRequestResult(request);
             return GetTexture(request);
         }

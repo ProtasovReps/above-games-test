@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LevelPanel
 {
-    public class LevelSelectPanel : MonoBehaviour, ILoadRequester<Sprite>
+    public class LevelSelectPanel : MonoBehaviour, ILoadRequester<Sprite>, IDisposable
     {
         private const int OneMinus = 1;
 
@@ -31,9 +31,10 @@ namespace LevelPanel
             CheckEntrance(_cancellationTokenSource.Token).Forget();
         }
 
-        private void OnDestroy()
+        public void Dispose()
         {
             _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
         }
 
         public void Initialize(IEnumerable<LevelBlock> levelPreviewBlocks)
