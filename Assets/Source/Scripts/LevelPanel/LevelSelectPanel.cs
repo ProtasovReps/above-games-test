@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LevelPanel
 {
-    public class LevelSelectPanel : MonoBehaviour, ILoadRequester<Sprite>, IDisposable
+    public sealed class LevelSelectPanel : MonoBehaviour, ILoadRequester<Sprite>, IDisposable
     {
         private const int OneMinus = 1;
 

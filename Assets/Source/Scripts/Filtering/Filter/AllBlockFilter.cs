@@ -1,6 +1,6 @@
 ﻿namespace Filtering.Filter
 {
-    public class AllBlockFilter : BlockFilter
+    public sealed class AllBlockFilter : BlockFilter
     {
         protected override bool IsValid(int ordinalNumber)
         {

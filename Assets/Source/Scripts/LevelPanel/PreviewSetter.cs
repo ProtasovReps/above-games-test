@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace LevelPanel
 {
-    public class PreviewSetter : IDisposable
+    public sealed class PreviewSetter : IDisposable
     {
         private readonly SpriteFactory _spriteFactory;
         private readonly ImageUrlBuilder _urlBuilder;

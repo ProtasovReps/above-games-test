@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Banners;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Factory
 {
-    public class BannerFactory
+    public sealed class BannerFactory
     {
         private readonly RectTransform _placeHolder;
 
+        private int _count;
+        
         public BannerFactory(RectTransform placeHolder)
         {
             if (placeHolder == null)
@@ -21,25 +21,20 @@ namespace Factory
             _placeHolder = placeHolder;
         }
 
-        public IEnumerable<Banner> Produce(Banner[] prefabs)
+        public int Produce(Banner[] prefabs)
         {
-            List<Banner> banners = new();
-
-            banners.Add(Instantiate(prefabs.Last()));
-
             for (int i = 0; i < prefabs.Length; i++)
             {
-                banners.Add(Instantiate(prefabs[i]));
+                Instantiate(prefabs[i]);
             }
             
-            banners.Add(Instantiate(prefabs.First()));
-            
-            return banners;
+            return _count;
         }
 
-        private Banner Instantiate(Banner prefab)
+        private void Instantiate(Banner prefab)
         {
-            return Object.Instantiate(prefab, _placeHolder);
+            _count++;
+            Object.Instantiate(prefab, _placeHolder);
         }
     }
 }

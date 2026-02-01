@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Filtering
 {
-    public class FilterPanel : MonoBehaviour
+    public sealed class FilterPanel : MonoBehaviour
     {
         private const int SliderMaxValue = 1;
         

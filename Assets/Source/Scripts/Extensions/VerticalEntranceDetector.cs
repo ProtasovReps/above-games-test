@@ -2,7 +2,7 @@
 
 namespace Extensions
 {
-    public class VerticalEntranceDetector
+    public sealed class VerticalEntranceDetector
     {
         private readonly float _minVerticalPosition;
         private readonly RectTransform _transform;

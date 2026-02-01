@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace Filtering
 {
     [RequireComponent(typeof(Activatable))]
-    public class FilterButton : MonoBehaviour
+    public sealed class FilterButton : MonoBehaviour
     {
         [SerializeField] private Button _button;
         

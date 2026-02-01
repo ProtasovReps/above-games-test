@@ -5,7 +5,7 @@ using Object = UnityEngine.Object;
 
 namespace Factory
 {
-    public class PreviewBlockFactory
+    public sealed class PreviewBlockFactory
     {
         private readonly LevelBlock _prefab;
         private readonly RectTransform _placeholder;

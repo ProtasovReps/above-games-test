@@ -1,6 +1,6 @@
 ﻿namespace Filtering.Filter
 {
-    public class EvenBlockFilter : BlockFilter
+    public sealed class EvenBlockFilter : BlockFilter
     {
         private const int Devider = 2;
         

@@ -2,7 +2,7 @@
 
 namespace HTTPRequests
 {
-    public class ImageUrlBuilder
+    public sealed class ImageUrlBuilder
     {
         private const string Path = "https://data.ikppbb.com/test-task-unity-data/pics/";
         private const string Format = ".jpg";

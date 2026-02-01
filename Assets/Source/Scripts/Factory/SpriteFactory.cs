@@ -2,7 +2,7 @@
 
 namespace Factory
 {
-    public class SpriteFactory
+    public sealed class SpriteFactory
     {
         public Sprite Produce(Texture2D texture)
         {

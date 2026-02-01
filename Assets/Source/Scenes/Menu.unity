@@ -158,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -395, y: 0}
-  m_SizeDelta: {x: 790, y: 0}
+  m_AnchoredPosition: {x: -405.984, y: 0}
+  m_SizeDelta: {x: 811.53, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &64681311
 MonoBehaviour:
@@ -333,7 +333,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scrollRect: {fileID: 187846463}
-  _dragThreshold: 0.3
+  _scrollAnimation:
+    _duration: 0.3
+    _ease: 8
+  _dragThreshold: 0.2
 --- !u!114 &187846463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,10 +656,10 @@ MonoBehaviour:
   _filterPanel: {fileID: 525974126}
   _bannerCarousel: {fileID: 187846462}
   _banners:
-  - {fileID: 170382932921089774, guid: 3107666237786a341b3c0cc34f01f4f1, type: 3}
   - {fileID: 113466924021647534, guid: 2f291f2714e151d4484570bd30411005, type: 3}
+  - {fileID: 170382932921089774, guid: 3107666237786a341b3c0cc34f01f4f1, type: 3}
   - {fileID: 2794574213107334944, guid: e269510d4cca12d42a8a5af3206f5be2, type: 3}
-  _content: {fileID: 1932707924}
+  _bannersPlaceHolder: {fileID: 1932707924}
 --- !u!4 &1590144347
 Transform:
   m_ObjectHideFlags: 0
@@ -809,10 +812,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 64681310}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.15100001, y: 0}
+  m_AnchorMax: {x: 0.84785634, y: 1}
+  m_AnchoredPosition: {x: 1.5, y: 0}
+  m_SizeDelta: {x: 792.25, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1932707925
 MonoBehaviour:

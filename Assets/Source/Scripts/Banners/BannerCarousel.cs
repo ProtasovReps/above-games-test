@@ -1,24 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using System.Linq;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Banners
 {
-    public class BannerCarousel : MonoBehaviour, IBeginDragHandler, IEndDragHandler
+    public class BannerCarousel : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDisposable
     {
         private const int FirstBannerIndex = 1;
         private const int Step = 1;
 
         [SerializeField] private ScrollRect _scrollRect;
+        [SerializeField] private ScrollAnimation _scrollAnimation;
         [SerializeField, Range(0.1f, 1f)] private float _dragThreshold;
 
-        private Banner[] _banners;
+        private int _bannerCount;
         private float _startDragPosition;
         private int _currentIndex;
+        private CancellationTokenSource _cancellationTokenSource;
 
-        public void OnBeginDrag(PointerEventData eventData) // все баннеры кроме текущего выключены, включать тут
+        public void OnBeginDrag(PointerEventData eventData)
         {
             _startDragPosition = eventData.position.x;
         }
@@ -27,46 +30,83 @@ namespace Banners
         {
             float positionDelta = (eventData.position.x - _startDragPosition) / Screen.width;
 
-            if (Mathf.Abs(positionDelta) > _dragThreshold)
+            Move(positionDelta);
+        }
+
+        public void Dispose()
+        {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
+        }
+        
+        public void Initialize(int bannerCount)
+        {
+            _bannerCount = bannerCount;
+            _currentIndex = FirstBannerIndex;
+
+            float newPosition = GetNormalizedPosition(_currentIndex);
+
+            _scrollRect.normalizedPosition = new Vector2(newPosition, 0f);
+        }
+
+        private void Move(float dragDelta)
+        {
+            if (Mathf.Abs(dragDelta) > _dragThreshold)
             {
-                ShowNext(Mathf.Sign(positionDelta));
+                ShowNext(Mathf.Sign(dragDelta));
             }
             else
             {
-                _scrollRect.normalizedPosition = GetNormalizedPosition(_currentIndex);
+                ShowCurrent();
             }
         }
 
-        public void Initialize(IEnumerable<Banner> banners)
-        {
-            _banners = banners.ToArray();
-            _currentIndex = FirstBannerIndex;
-            _scrollRect.normalizedPosition = GetNormalizedPosition(_currentIndex);
-        }
-
-        private void ShowNext(float sign) // также нужно обыграть первый и последний, чтобы они тэпали
+        private void ShowNext(float sign)
         {
             int next;
 
             if (sign < 0)
             {
-                next = (_currentIndex + Step) % _banners.Length;
+                next = (_currentIndex + Step) % _bannerCount;
             }
             else
             {
-                next = (_currentIndex - Step + _banners.Length) % _banners.Length;
+                next = (_currentIndex - Step + _bannerCount) % _bannerCount;
             }
 
-            _scrollRect.normalizedPosition = GetNormalizedPosition(next);
+            float newPosition = GetNormalizedPosition(next);
+
+            Animate(newPosition).Forget();
             _currentIndex = next;
         }
 
-        private Vector2 GetNormalizedPosition(int index)
+        private void ShowCurrent()
+        {
+            float newPosition = GetNormalizedPosition(_currentIndex);
+
+            Animate(newPosition).Forget();
+        }
+
+        private float GetNormalizedPosition(int index)
         {
             float oneMinus = 1;
-            float normalizedPositon = index / (_banners.Length - oneMinus);
+            float normalizedPositon = index / (_bannerCount - oneMinus);
 
-            return new Vector2(normalizedPositon, 0f);
+            return normalizedPositon;
+        }
+
+        private async UniTask Animate(float newPosition)
+        {
+            if (_cancellationTokenSource != null)
+            {
+                return;
+            }
+
+            _scrollRect.horizontal = false;
+            _cancellationTokenSource = new CancellationTokenSource();
+            await _scrollAnimation.AnimateScrollRect(newPosition, _scrollRect, _cancellationTokenSource.Token);
+            _cancellationTokenSource = null;
+            _scrollRect.horizontal = true;
         }
     }
 }

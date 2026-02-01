@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Banners;
 using Factory;
 using Filtering;
@@ -8,18 +9,23 @@ using UnityEngine;
 
 namespace Extensions
 {
-    public class CompositeRoot : MonoBehaviour
+    public sealed class CompositeRoot : MonoBehaviour
     {
         private readonly Disposer _disposer = new ();
         
+        [Header("Level Preview")]
         [SerializeField] private RectTransform _previewBlockPlaceholder;
         [SerializeField] private LevelBlock _prefab;
         [SerializeField] private LevelSelectPanel _levelSelectPanel;
         [SerializeField] [Min(1)] private int _levelCount;
+        
+        [Header("Filter")]
         [SerializeField] private FilterPanel _filterPanel;
+        
+        [Header("Banner Carousel")]
         [SerializeField] private BannerCarousel _bannerCarousel;
         [SerializeField] private Banner[] _banners;
-        [SerializeField] private RectTransform _content; // temp
+        [SerializeField] private RectTransform _bannersPlaceHolder;
         
         private void Awake()
         {
@@ -43,12 +49,13 @@ namespace Extensions
 
         private void InstallBannerCarousel()
         {
-            BannerFactory bannerFactory = new (_content);
-            IEnumerable<Banner> banners = bannerFactory.Produce(_banners);
+            BannerFactory bannerFactory = new (_bannersPlaceHolder);
+            int banners = bannerFactory.Produce(_banners);
             
-            new BannerSizeFitter().Fit(_content);
+            new BannerSizeFitter().Fit(_bannersPlaceHolder, banners);
             
             _bannerCarousel.Initialize(banners);
+            _disposer.Add(_bannerCarousel);
         }
         
         private void InstallLevelSelectPanel(IEnumerable<LevelBlock> blocks)
@@ -59,7 +66,6 @@ namespace Extensions
             PreviewSetter previewSetter = new(textureLoader, spriteFactory, _levelSelectPanel, urlBuilder);
 
             _levelSelectPanel.Initialize(blocks);
-            
             _disposer.Add(textureLoader);
             _disposer.Add(previewSetter);
             _disposer.Add(_levelSelectPanel);
