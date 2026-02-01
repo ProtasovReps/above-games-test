@@ -52,7 +52,7 @@ namespace LevelPanel
                 {
                     LevelBlock block = _bareBlocks[i];
 
-                    if (_entranceDetector.IsVerticallyInside(block.Position) == false)
+                    if (_entranceDetector.IsVerticallyInside(block.WorldPosition) == false)
                     {
                         continue;
                     }

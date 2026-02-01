@@ -10,9 +10,9 @@ namespace Extensions
         public VerticalEntranceDetector(RectTransform rectTransform, float offsetFactor)
         {
             int devider = 2;
-            float devidedHeight = rectTransform.rect.height / devider;
+            float verticalCenter = rectTransform.rect.height / devider;
 
-            _minVerticalPosition = rectTransform.anchoredPosition.y - devidedHeight * offsetFactor;
+            _minVerticalPosition = rectTransform.anchoredPosition.y - verticalCenter * offsetFactor;
             _transform = rectTransform;
         }
 

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Banners;
 using Factory;
 using Filtering;
 using HTTPRequests;
@@ -17,6 +17,9 @@ namespace Extensions
         [SerializeField] private LevelSelectPanel _levelSelectPanel;
         [SerializeField] [Min(1)] private int _levelCount;
         [SerializeField] private FilterPanel _filterPanel;
+        [SerializeField] private BannerCarousel _bannerCarousel;
+        [SerializeField] private Banner[] _banners;
+        [SerializeField] private RectTransform _content; // temp
         
         private void Awake()
         {
@@ -28,6 +31,7 @@ namespace Extensions
                 blocks[i] = blockFactory.Produce();
             }
             
+            InstallBannerCarousel();
             InstallLevelSelectPanel(blocks);
             InstallFilter(blocks);
         }
@@ -37,6 +41,16 @@ namespace Extensions
             _disposer.Dispose();
         }
 
+        private void InstallBannerCarousel()
+        {
+            BannerFactory bannerFactory = new (_content);
+            IEnumerable<Banner> banners = bannerFactory.Produce(_banners);
+            
+            new BannerSizeFitter().Fit(_content);
+            
+            _bannerCarousel.Initialize(banners);
+        }
+        
         private void InstallLevelSelectPanel(IEnumerable<LevelBlock> blocks)
         {
             SpriteFactory spriteFactory = new();

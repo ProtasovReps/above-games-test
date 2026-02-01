@@ -9,7 +9,7 @@ namespace LevelPanel
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Image _image;
         
-        public Vector3 Position => _rectTransform.position;
+        public Vector3 WorldPosition => _rectTransform.position;
         
         public void Set(Sprite sprite)
         {
