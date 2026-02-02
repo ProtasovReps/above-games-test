@@ -3,7 +3,6 @@ using Banners;
 using Factory;
 using Filtering;
 using HTTPRequests;
-using Interface;
 using LevelPanel;
 using Popups;
 using UnityEngine;
@@ -14,6 +13,8 @@ namespace Extensions
     {
         private readonly Disposer _disposer = new();
 
+        [SerializeField] private int _targetFrameRate;
+        
         [Header("Level Preview")]
         [SerializeField] private RectTransform _previewBlockPlaceholder;
         [SerializeField] private FreeLevelBlock _freePrefab;
@@ -36,6 +37,8 @@ namespace Extensions
 
         private void Awake()
         {
+            Application.targetFrameRate = _targetFrameRate;
+            
             BlockFactory blockFactory = new (_freePrefab, _premiumPrefab, _previewBlockPlaceholder);
             List<LevelBlock> blocks = blockFactory.Produce(_levelCount, _everyPremiumBlockNumber);
 

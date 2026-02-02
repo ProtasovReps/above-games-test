@@ -89,7 +89,7 @@ namespace Banners
 
             _scrollRect.horizontal = false;
             _cancellationTokenSource = new CancellationTokenSource();
-            await _scrollAnimation.AnimateScrollRect(newPosition, _scrollRect, _cancellationTokenSource.Token);
+            await _scrollAnimation.AnimateScrollRectX(newPosition, _scrollRect, _cancellationTokenSource.Token);
             _cancellationTokenSource = null;
             _scrollRect.horizontal = true;
         }

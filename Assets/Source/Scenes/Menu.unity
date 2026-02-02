@@ -763,6 +763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0da796847c64e88aad209c80848dcb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _targetFrameRate: 0
   _previewBlockPlaceholder: {fileID: 1753948475}
   _freePrefab: {fileID: 6480891097979121083, guid: 5c42234caa265c44387ea84d50f9207d, type: 3}
   _premiumPrefab: {fileID: 1678754811559703320, guid: 229f26ac82ec77e40a05e165db68daab, type: 3}
@@ -816,7 +817,7 @@ GameObject:
   - component: {fileID: 1957661412}
   - component: {fileID: 1957661411}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MainCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1217,5 +1218,5 @@ SceneRoots:
   - {fileID: 1590144347}
   - {fileID: 519420032}
   - {fileID: 1957661414}
-  - {fileID: 103935691}
   - {fileID: 654205290}
+  - {fileID: 103935691}
