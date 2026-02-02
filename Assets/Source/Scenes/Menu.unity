@@ -1090,7 +1090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0da796847c64e88aad209c80848dcb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetFrameRate: 100
+  _targetFrameRate: 150
   _previewBlockPlaceholder: {fileID: 1753948475}
   _freePrefab: {fileID: 6480891097979121083, guid: 5c42234caa265c44387ea84d50f9207d, type: 3}
   _premiumPrefab: {fileID: 1678754811559703320, guid: 229f26ac82ec77e40a05e165db68daab, type: 3}

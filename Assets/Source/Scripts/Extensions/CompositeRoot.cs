@@ -59,7 +59,7 @@ namespace Extensions
 
         private void InstallBannerCarousel()
         {
-            BannerFactory bannerFactory = new(_bannersPlaceHolder);
+            BannerFactory bannerFactory = new (_bannersPlaceHolder);
             new BannerSizeFitter().Fit(_bannersPlaceHolder, _banners.Length);
 
             bannerFactory.Produce(_banners);
@@ -69,10 +69,10 @@ namespace Extensions
 
         private void InstallLevelSelectPanel(IEnumerable<LevelBlock> blocks)
         {
-            SpriteFactory spriteFactory = new();
-            ImageUrlBuilder urlBuilder = new();
-            TextureLoader textureLoader = new();
-            PreviewSetter previewSetter = new(textureLoader, spriteFactory, _levelSelectPanel, urlBuilder);
+            SpriteFactory spriteFactory = new ();
+            ImageUrlBuilder urlBuilder = new ();
+            TextureLoader textureLoader = new ();
+            PreviewSetter previewSetter = new (textureLoader, spriteFactory, _levelSelectPanel, urlBuilder);
             
             _levelSelectPanel.Initialize(blocks);
             _disposer.Add(textureLoader);
@@ -90,7 +90,7 @@ namespace Extensions
             _defaultPopup.Initialize();
             _premiumPopup.Initialize();
             
-            PopupSubscriber subscriber = new(_defaultPopup, _premiumPopup);
+            PopupSubscriber subscriber = new (_defaultPopup, _premiumPopup);
             
             subscriber.VisitAll(blocks);
         }

@@ -9,8 +9,6 @@ namespace Factory
     {
         private readonly RectTransform _placeHolder;
 
-        private int _count;
-        
         public BannerFactory(RectTransform placeHolder)
         {
             if (placeHolder == null)
@@ -21,19 +19,16 @@ namespace Factory
             _placeHolder = placeHolder;
         }
 
-        public int Produce(Banner[] prefabs)
+        public void Produce(Banner[] prefabs)
         {
             for (int i = 0; i < prefabs.Length; i++)
             {
                 Instantiate(prefabs[i]);
             }
-            
-            return _count;
         }
 
         private void Instantiate(Banner prefab)
         {
-            _count++;
             Object.Instantiate(prefab, _placeHolder);
         }
     }

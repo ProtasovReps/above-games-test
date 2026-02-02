@@ -12,7 +12,7 @@ namespace Extensions
 
         private Color _defaultTextColor;
 
-        private void Awake()
+        public void Initialize()
         {
             _defaultTextColor = _text.color;
         }

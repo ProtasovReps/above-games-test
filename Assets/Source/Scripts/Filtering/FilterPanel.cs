@@ -45,6 +45,7 @@ namespace Filtering
             {
                 Activatable activatable = filterButton.GetComponent<Activatable>();
                 
+                activatable.Initialize();
                 _filters.Add(filterButton, activatable);
             }
             

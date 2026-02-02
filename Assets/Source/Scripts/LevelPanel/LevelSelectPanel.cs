@@ -12,7 +12,7 @@ namespace LevelPanel
     {
         private const int OneMinus = 1;
 
-        private readonly CancellationTokenSource _cancellationTokenSource = new();
+        private readonly CancellationTokenSource _cancellationTokenSource = new ();
 
         [SerializeField] [Min(1)] private float _entranceOffsetFactor;
         [SerializeField] private float _entranceCheckInterval;

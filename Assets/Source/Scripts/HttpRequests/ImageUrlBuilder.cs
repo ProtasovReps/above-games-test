@@ -7,7 +7,7 @@ namespace HTTPRequests
         private const string Path = "https://data.ikppbb.com/test-task-unity-data/pics/";
         private const string Format = ".jpg";
         
-        private readonly StringBuilder _stringBuilder = new();
+        private readonly StringBuilder _stringBuilder = new ();
 
         private int _fileNumber;
 

@@ -13,7 +13,7 @@ namespace Banners
         [SerializeField] private float _duration;
         [SerializeField] private Ease _ease;
         
-        public async UniTask AnimateScrollRectX(
+        public async UniTask AnimateScrollRect(
             float target,
             ScrollRect scrollRect,
             CancellationToken token)
