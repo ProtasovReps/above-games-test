@@ -10,13 +10,13 @@ namespace Filtering
 {
     public sealed class FilterPanel : MonoBehaviour
     {
-        private const int SliderMaxValue = 1;
+        private const float SliderMaxValue = 1;
         
         private readonly Dictionary<FilterButton, Activatable> _filters = new ();
 
         [SerializeField] private FilterButton[] _filterButtons;
         [SerializeField] private FilterButton _firstFilter;
-        [SerializeField] private Scrollbar _scrollBar;
+        [SerializeField] private ScrollRect _scrollRect;
         
         private LevelBlock[] _blocks;
         private Activatable _lastActiveButton;
@@ -64,7 +64,7 @@ namespace Filtering
             _lastActiveButton = activatable;
             
             _lastActiveButton.SetActive(true);
-            _scrollBar.value = SliderMaxValue;
+            _scrollRect.normalizedPosition = new Vector2(0, SliderMaxValue);
         }
     }
 }

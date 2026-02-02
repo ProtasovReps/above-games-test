@@ -7,31 +7,17 @@ using UnityEngine.UI;
 
 namespace Banners
 {
-    public class BannerCarousel : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDisposable
+    public class BannerCarousel : MonoBehaviour, IDisposable
     {
-        private const int FirstBannerIndex = 1;
         private const int Step = 1;
 
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private ScrollAnimation _scrollAnimation;
         [SerializeField, Range(0.1f, 1f)] private float _dragThreshold;
 
-        private int _bannerCount;
-        private float _startDragPosition;
+        private int _bannersCount;
         private int _currentIndex;
         private CancellationTokenSource _cancellationTokenSource;
-
-        public void OnBeginDrag(PointerEventData eventData)
-        {
-            _startDragPosition = eventData.position.x;
-        }
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            float positionDelta = (eventData.position.x - _startDragPosition) / Screen.width;
-
-            Move(positionDelta);
-        }
 
         public void Dispose()
         {
@@ -41,15 +27,14 @@ namespace Banners
         
         public void Initialize(int bannerCount)
         {
-            _bannerCount = bannerCount;
-            _currentIndex = FirstBannerIndex;
+            _bannersCount = bannerCount;
 
             float newPosition = GetNormalizedPosition(_currentIndex);
 
             _scrollRect.normalizedPosition = new Vector2(newPosition, 0f);
         }
 
-        private void Move(float dragDelta)
+        public void Move(float dragDelta)
         {
             if (Mathf.Abs(dragDelta) > _dragThreshold)
             {
@@ -67,11 +52,11 @@ namespace Banners
 
             if (sign < 0)
             {
-                next = (_currentIndex + Step) % _bannerCount;
+                next = (_currentIndex + Step) % _bannersCount;
             }
             else
             {
-                next = (_currentIndex - Step + _bannerCount) % _bannerCount;
+                next = (_currentIndex - Step + _bannersCount) % _bannersCount;
             }
 
             float newPosition = GetNormalizedPosition(next);
@@ -90,7 +75,7 @@ namespace Banners
         private float GetNormalizedPosition(int index)
         {
             float oneMinus = 1;
-            float normalizedPositon = index / (_bannerCount - oneMinus);
+            float normalizedPositon = index / (_bannersCount - oneMinus);
 
             return normalizedPositon;
         }
