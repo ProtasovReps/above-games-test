@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Interface;
+using LevelPanel;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,18 +9,11 @@ namespace Popups
 {
     public abstract class Popup : MonoBehaviour
     {
-        private readonly List<IImageBlock> _subscriptions = new ();
+        private readonly List<BlockClickReader> _subscriptions = new ();
 
         [SerializeField] private Button _exitButton;
         
         private GameObject _gameObject;
-        
-        private void Start()
-        {
-            _gameObject = gameObject;
-            _exitButton.onClick.AddListener(Exit);
-            Exit();
-        }
 
         private void OnDestroy()
         {
@@ -31,15 +25,22 @@ namespace Popups
             }
         }
 
-        public void Add(IImageBlock imageBlock)
+        public void Initialize()
         {
-            if (_subscriptions.Contains(imageBlock))
+            _gameObject = gameObject;
+            _exitButton.onClick.AddListener(Exit);
+            Exit();
+        }
+        
+        public void Add(BlockClickReader clickReader)
+        {
+            if (_subscriptions.Contains(clickReader))
             {
                 throw new ArgumentException("Already subscribed");
             }
 
-            imageBlock.Clicked += OnImageBlockClicked;
-            _subscriptions.Add(imageBlock);
+            clickReader.Clicked += OnImageBlockClicked;
+            _subscriptions.Add(clickReader);
         }
 
         protected virtual void OnImageBlockClicked(IImageBlock imageBlock)

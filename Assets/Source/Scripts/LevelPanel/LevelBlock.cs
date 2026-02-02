@@ -1,31 +1,18 @@
-﻿using System;
-using Interface;
+﻿using Interface;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace LevelPanel
 {
-    public sealed class LevelBlock : MonoBehaviour, ILoadPath<Sprite>, IImageBlock
+    [RequireComponent(typeof(BlockClickReader))]
+    public abstract class LevelBlock : MonoBehaviour, ILoadPath<Sprite>, IImageBlock
     {
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Image _image;
-        [SerializeField] private Button _button;
 
         private bool _isSetted;
         
-        public event Action<LevelBlock> Clicked;
-        
         public Vector3 WorldPosition => _rectTransform.position;
-
-        private void Awake()
-        {
-            _button.onClick.AddListener(InvokeClicked);
-        }
-
-        private void OnDestroy()
-        {
-            _button.onClick.RemoveListener(InvokeClicked);
-        }
 
         public void Set(Sprite sprite)
         {
@@ -33,15 +20,12 @@ namespace LevelPanel
             _isSetted = true;
         }
 
-        public bool TryGet(out Image image)
+        public bool TryGet(out Sprite image)
         {
-            image = _image;
+            image = _image.sprite;
             return _isSetted;
         }
 
-        private void InvokeClicked()
-        {
-            Clicked?.Invoke(this);
-        }
+        public abstract void Accept(IBlockVisitor blockVisitor);
     }
 }

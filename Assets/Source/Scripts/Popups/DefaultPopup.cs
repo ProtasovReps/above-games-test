@@ -10,12 +10,12 @@ namespace Popups
         
         protected override void OnImageBlockClicked(IImageBlock imageBlock)
         {
-            if (imageBlock.TryGet(out Image image) == false)
+            if (imageBlock.TryGet(out Sprite sprite) == false)
             {
                 return;
             }
 
-            _preview.sprite = image.sprite;
+            _preview.sprite = sprite;
             base.OnImageBlockClicked(imageBlock);
         }
     }

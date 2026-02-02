@@ -1,31 +1,41 @@
 ﻿using System.Collections.Generic;
 using Interface;
+using LevelPanel;
 
 namespace Popups
 {
-    public struct PopupSubscriber
+    public class PopupSubscriber : IBlockVisitor
     {
-        public void Subscribe(
-            PremiumPopup premiumPopup,
-            DefaultPopup defaultPopup,
-            IEnumerable<IImageBlock> imageBlocks,
-            int everyPremiumBlockNumber)
+        private readonly DefaultPopup _defaultPopup;
+        private readonly PremiumPopup _premiumPopup;
+
+        public PopupSubscriber(DefaultPopup defaultPopup, PremiumPopup premiumPopup)
         {
-            int index = 1;
+            _defaultPopup = defaultPopup;
+            _premiumPopup = premiumPopup;
+        }
 
-            foreach (IImageBlock block in imageBlocks)
+        public void VisitAll(IEnumerable<LevelBlock> levelBlocks)
+        {
+            foreach (LevelBlock block in levelBlocks)
             {
-                if (index % everyPremiumBlockNumber == 0)
-                {
-                    premiumPopup.Add(block);
-                }
-                else
-                {
-                    defaultPopup.Add(block);
-                }
-
-                index++;
+                block.Accept(this);
             }
+        }
+        
+        public void Visit(FreeLevelBlock freeBlock)
+        {
+            _defaultPopup.Add(GetClickReader(freeBlock));
+        }
+        
+        public void Visit(PremiumLevelBlock premiumBlock)
+        {
+            _premiumPopup.Add(GetClickReader(premiumBlock));
+        }
+
+        private BlockClickReader GetClickReader(LevelBlock block)
+        {
+            return block.GetComponent<BlockClickReader>();
         }
     }
 }

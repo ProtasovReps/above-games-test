@@ -1,13 +1,9 @@
-﻿using System;
-using LevelPanel;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 namespace Interface
 {
     public interface IImageBlock
     {
-        public event Action<LevelBlock> Clicked;
-        
-        public bool TryGet(out Image image);
+        public bool TryGet(out Sprite image);
     }
 }

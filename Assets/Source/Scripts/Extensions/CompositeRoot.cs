@@ -12,37 +12,33 @@ namespace Extensions
 {
     public sealed class CompositeRoot : MonoBehaviour
     {
-        private readonly Disposer _disposer = new ();
-        
+        private readonly Disposer _disposer = new();
+
         [Header("Level Preview")]
         [SerializeField] private RectTransform _previewBlockPlaceholder;
-        [SerializeField] private LevelBlock _prefab;
+        [SerializeField] private FreeLevelBlock _freePrefab;
+        [SerializeField] private PremiumLevelBlock _premiumPrefab;
         [SerializeField] private LevelSelectPanel _levelSelectPanel;
         [SerializeField] [Min(1)] private int _levelCount;
-        
-        [Header("Filter")]
+
+        [Header("Filter")] 
         [SerializeField] private FilterPanel _filterPanel;
-        
-        [Header("Banner Carousel")]
+
+        [Header("Banner Carousel")] 
         [SerializeField] private BannerCarousel _bannerCarousel;
         [SerializeField] private Banner[] _banners;
         [SerializeField] private RectTransform _bannersPlaceHolder;
 
-        [Header("Popups")]
+        [Header("Popups")] 
         [SerializeField] private PremiumPopup _premiumPopup;
         [SerializeField] private DefaultPopup _defaultPopup;
         [SerializeField] private int _everyPremiumBlockNumber;
-        
+
         private void Awake()
         {
-            PreviewBlockFactory blockFactory = new(_prefab, _previewBlockPlaceholder);
-            LevelBlock[] blocks = new LevelBlock[_levelCount];
+            BlockFactory blockFactory = new (_freePrefab, _premiumPrefab, _previewBlockPlaceholder);
+            List<LevelBlock> blocks = blockFactory.Produce(_levelCount, _everyPremiumBlockNumber);
 
-            for (int i = 0; i < _levelCount; i++)
-            {
-                blocks[i] = blockFactory.Produce();
-            }
-            
             InstallLevelSelectPanel(blocks);
             InstallFilter(blocks);
             InstallPopups(blocks);
@@ -60,21 +56,21 @@ namespace Extensions
 
         private void InstallBannerCarousel()
         {
-            BannerFactory bannerFactory = new (_bannersPlaceHolder);
+            BannerFactory bannerFactory = new(_bannersPlaceHolder);
             new BannerSizeFitter().Fit(_bannersPlaceHolder, _banners.Length);
-            
+
             bannerFactory.Produce(_banners);
             _bannerCarousel.Initialize(_banners.Length);
             _disposer.Add(_bannerCarousel);
         }
-        
+
         private void InstallLevelSelectPanel(IEnumerable<LevelBlock> blocks)
         {
-            SpriteFactory spriteFactory = new ();
-            ImageUrlBuilder urlBuilder = new ();
-            TextureLoader textureLoader = new ();
-            PreviewSetter previewSetter = new (textureLoader, spriteFactory, _levelSelectPanel, urlBuilder);
-
+            SpriteFactory spriteFactory = new();
+            ImageUrlBuilder urlBuilder = new();
+            TextureLoader textureLoader = new();
+            PreviewSetter previewSetter = new(textureLoader, spriteFactory, _levelSelectPanel, urlBuilder);
+            
             _levelSelectPanel.Initialize(blocks);
             _disposer.Add(textureLoader);
             _disposer.Add(previewSetter);
@@ -86,9 +82,14 @@ namespace Extensions
             _filterPanel.Initialize(blocks);
         }
 
-        private void InstallPopups(IEnumerable<IImageBlock> imageBlocks)
+        private void InstallPopups(IEnumerable<LevelBlock> blocks)
         {
-            new PopupSubscriber().Subscribe(_premiumPopup, _defaultPopup, imageBlocks, _everyPremiumBlockNumber);
+            _defaultPopup.Initialize();
+            _premiumPopup.Initialize();
+            
+            PopupSubscriber subscriber = new(_defaultPopup, _premiumPopup);
+            
+            subscriber.VisitAll(blocks);
         }
     }
 }
