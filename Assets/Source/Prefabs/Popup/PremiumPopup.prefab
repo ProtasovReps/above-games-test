@@ -278,7 +278,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5694717077792023418}
-  - component: {fileID: 6819901932708622325}
   - component: {fileID: 6174336699840408266}
   m_Layer: 5
   m_Name: PremiumPopup
@@ -309,14 +308,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &6819901932708622325
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1750781727804860676}
-  m_CullTransparentMesh: 1
 --- !u!114 &6174336699840408266
 MonoBehaviour:
   m_ObjectHideFlags: 0

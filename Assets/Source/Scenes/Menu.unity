@@ -1016,25 +1016,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1957661414}
     m_Modifications:
-    - target: {fileID: 176760590156229016, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
-      propertyPath: m_Maskable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 176760590156229016, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
-      propertyPath: m_isRichText
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 176760590156229016, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 467220929380013572, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
       propertyPath: m_Name
       value: FilterPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 562981893847831993, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
-      propertyPath: m_Maskable
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2536030883810070096, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
       propertyPath: _scrollRect
@@ -1118,38 +1102,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2777695299246479781, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5081119025493237553, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
-      propertyPath: m_Maskable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5640898766695207954, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
-      propertyPath: m_Maskable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5640898766695207954, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
-      propertyPath: m_isRichText
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5640898766695207954, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5835530651204457267, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
-      propertyPath: m_Maskable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5835530651204457267, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
-      propertyPath: m_isRichText
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5835530651204457267, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511070931551688161, guid: 385948d8c8a8dbb439e3fc0956830377, type: 3}
-      propertyPath: m_Maskable
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
