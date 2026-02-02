@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Banners;
 using Factory;
 using Filtering;
 using HTTPRequests;
+using Interface;
 using LevelPanel;
+using Popups;
 using UnityEngine;
 
 namespace Extensions
@@ -27,6 +27,11 @@ namespace Extensions
         [SerializeField] private BannerCarousel _bannerCarousel;
         [SerializeField] private Banner[] _banners;
         [SerializeField] private RectTransform _bannersPlaceHolder;
+
+        [Header("Popups")]
+        [SerializeField] private PremiumPopup _premiumPopup;
+        [SerializeField] private DefaultPopup _defaultPopup;
+        [SerializeField] private int _everyPremiumBlockNumber;
         
         private void Awake()
         {
@@ -40,6 +45,7 @@ namespace Extensions
             
             InstallLevelSelectPanel(blocks);
             InstallFilter(blocks);
+            InstallPopups(blocks);
         }
 
         private void Start()
@@ -64,10 +70,10 @@ namespace Extensions
         
         private void InstallLevelSelectPanel(IEnumerable<LevelBlock> blocks)
         {
-            SpriteFactory spriteFactory = new();
-            ImageUrlBuilder urlBuilder = new();
-            TextureLoader textureLoader = new();
-            PreviewSetter previewSetter = new(textureLoader, spriteFactory, _levelSelectPanel, urlBuilder);
+            SpriteFactory spriteFactory = new ();
+            ImageUrlBuilder urlBuilder = new ();
+            TextureLoader textureLoader = new ();
+            PreviewSetter previewSetter = new (textureLoader, spriteFactory, _levelSelectPanel, urlBuilder);
 
             _levelSelectPanel.Initialize(blocks);
             _disposer.Add(textureLoader);
@@ -78,6 +84,11 @@ namespace Extensions
         private void InstallFilter(IEnumerable<LevelBlock> blocks)
         {
             _filterPanel.Initialize(blocks);
+        }
+
+        private void InstallPopups(IEnumerable<IImageBlock> imageBlocks)
+        {
+            new PopupSubscriber().Subscribe(_premiumPopup, _defaultPopup, imageBlocks, _everyPremiumBlockNumber);
         }
     }
 }
