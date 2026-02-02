@@ -6,12 +6,9 @@ namespace Banners
     {
         public void Fit(RectTransform content, int bannersCount)
         {
-            int half = 2;
             int oneMinus = 1;
-            float halfContentSizePadding = content.rect.width * (bannersCount - oneMinus) / half;
             
-            content.offsetMin = new Vector2(-halfContentSizePadding, content.offsetMin.y);
-            content.offsetMax = new Vector2(halfContentSizePadding, content.offsetMax.y);
+            content.sizeDelta = new Vector2(content.rect.width * (bannersCount - oneMinus), content.sizeDelta.y);
         }
     }
 }

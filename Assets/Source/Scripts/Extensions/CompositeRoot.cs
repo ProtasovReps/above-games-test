@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Banners;
 using Factory;
@@ -37,9 +38,13 @@ namespace Extensions
                 blocks[i] = blockFactory.Produce();
             }
             
-            InstallBannerCarousel();
             InstallLevelSelectPanel(blocks);
             InstallFilter(blocks);
+        }
+
+        private void Start()
+        {
+            InstallBannerCarousel();
         }
 
         private void OnDestroy()
@@ -50,11 +55,10 @@ namespace Extensions
         private void InstallBannerCarousel()
         {
             BannerFactory bannerFactory = new (_bannersPlaceHolder);
-            int banners = bannerFactory.Produce(_banners);
+            new BannerSizeFitter().Fit(_bannersPlaceHolder, _banners.Length);
             
-            new BannerSizeFitter().Fit(_bannersPlaceHolder, banners);
-            
-            _bannerCarousel.Initialize(banners);
+            bannerFactory.Produce(_banners);
+            _bannerCarousel.Initialize(_banners.Length);
             _disposer.Add(_bannerCarousel);
         }
         
